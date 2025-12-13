@@ -244,16 +244,22 @@ function Posts() {
                 display: flex !important;
                 flex-direction: column;
                 gap: 12px !important;
+                align-items: center !important;
               }
               .first-place {
                 order: 1;
+                width: 90% !important;
+                max-width: 90% !important;
               }
               .second-third-grid {
                 order: 2;
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
+                display: flex !important;
                 gap: 12px !important;
                 width: 100% !important;
+              }
+              .second-third-grid > div {
+                flex: 1 !important;
+                min-width: 0 !important;
               }
             }
             @media (min-width: 769px) {
@@ -262,12 +268,15 @@ function Posts() {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 12px;
               }
+              .first-place {
+                max-width: none !important;
+              }
               .second-third-grid {
                 display: contents;
               }
             }
           `}</style>
-          <div className="top-posts-grid" style={{ marginBottom: '15px', gap: '12px', width: '100%' }}>
+          <div className="top-posts-grid" style={{ marginBottom: '15px', gap: '12px', width: '100%', maxWidth: '100%' }}>
             {/* Primer lugar */}
             {sortedMedia.slice(0, 1).map((media) => {
               const engagement = (media.like_count || 0) + (media.comments_count || 0);
