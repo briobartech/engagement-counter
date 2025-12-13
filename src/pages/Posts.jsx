@@ -243,6 +243,7 @@ function Posts() {
               .top-posts-grid {
                 display: flex !important;
                 flex-direction: column;
+                gap: 12px !important;
               }
               .first-place {
                 order: 1;
@@ -252,6 +253,7 @@ function Posts() {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
                 gap: 12px !important;
+                width: 100% !important;
               }
             }
             @media (min-width: 769px) {
@@ -265,7 +267,7 @@ function Posts() {
               }
             }
           `}</style>
-          <div className="top-posts-grid" style={{ marginBottom: '15px', gap: '12px' }}>
+          <div className="top-posts-grid" style={{ marginBottom: '15px', gap: '12px', width: '100%' }}>
             {/* Primer lugar */}
             {sortedMedia.slice(0, 1).map((media) => {
               const engagement = (media.like_count || 0) + (media.comments_count || 0);
