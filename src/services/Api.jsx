@@ -1,0 +1,81 @@
+const INSTAGRAM_API_BASE_URL = 'https://graph.instagram.com';
+
+class InstagramAPI {
+  constructor(accessToken) {
+    this.accessToken = accessToken;
+  }
+
+  // Obtener información del usuario
+  async getUserInfo() {
+    try {
+      const response = await fetch(
+        `${INSTAGRAM_API_BASE_URL}/me?fields=id,username,account_type,media_count,followers_count,profile_picture_url&access_token=${this.accessToken}`
+      );
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      throw error;
+    }
+  }
+
+  // Obtener medias del usuario
+  async getUserMedia(limit = 25) {
+    try {
+      const response = await fetch(
+        `${INSTAGRAM_API_BASE_URL}/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count&limit=${limit}&access_token=${this.accessToken}`
+      );
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching media:', error);
+      throw error;
+    }
+  }
+
+  // Obtener insights de un media específico
+  async getMediaInsights(mediaId) {
+    try {
+      const response = await fetch(
+        `${INSTAGRAM_API_BASE_URL}/${mediaId}/insights?metric=engagement,impressions,reach,saved&access_token=${this.accessToken}`
+      );
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching media insights:', error);
+      throw error;
+    }
+  }
+
+  // Calcular engagement total
+  async getTotalEngagement() {
+    try {
+      const mediaData = await this.getUserMedia();
+      
+      if (!mediaData.data) {
+        return null;
+      }
+
+      const totalEngagement = mediaData.data.reduce((acc, media) => {
+        return {
+          totalLikes: acc.totalLikes + (media.like_count || 0),
+          totalComments: acc.totalComments + (media.comments_count || 0),
+          mediaCount: acc.mediaCount + 1,
+        };
+      }, {
+        totalLikes: 0,
+        totalComments: 0,
+        mediaCount: 0,
+      });
+
+      return {
+        ...totalEngagement,
+        avgEngagementPerPost: totalEngagement.mediaCount > 0
+          ? ((totalEngagement.totalLikes + totalEngagement.totalComments) / totalEngagement.mediaCount).toFixed(2)
+          : 0
+      };
+    } catch (error) {
+      console.error('Error calculating total engagement:', error);
+      throw error;
+    }
+  }
+}
+
+export default InstagramAPI;
