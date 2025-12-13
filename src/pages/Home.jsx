@@ -94,7 +94,7 @@ function Home() {
                 fontWeight: '500',
                 color: '#666'
               }}>
-                <img src="/followers.png" alt="Followers" style={{ width: '32px', height: '32px', opacity: 0.8 }} />
+                <img src={`${import.meta.env.BASE_URL}followers.png`} alt="Followers" style={{ width: '32px', height: '32px', opacity: 0.8 }} />
                 <span>{userInfo.followers_count?.toLocaleString() || 'N/A'} Seguidores</span>
               </div>
 
@@ -126,7 +126,7 @@ function Home() {
                   e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,149,246,0.3)';
                 }}
               >
-                <img src="/plus.svg" alt="Plus" style={{ width: '20px', height: '20px', filter: 'brightness(0) invert(1)' }} />
+                <img src={`${import.meta.env.BASE_URL}plus.svg`} alt="Plus" style={{ width: '20px', height: '20px', filter: 'brightness(0) invert(1)' }} />
                 <span>Seguir</span>
               </a>
             </div>

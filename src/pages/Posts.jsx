@@ -77,6 +77,11 @@ function Posts() {
     });
   };
 
+  const getPublicUrl = (path) => {
+    const base = import.meta.env.BASE_URL || '/';
+    return `${base}${path}`.replace(/\/\//g, '/');
+  };
+
   const getCustomThumbnail = (caption) => {
     if (!caption) return null;
     
@@ -88,7 +93,7 @@ function Posts() {
     // Convertir a minúsculas y espacios a guiones bajos
     const filename = text.toLowerCase().replace(/\s+/g, '_') + '.jpg';
     
-    return `/${filename}`;
+    return getPublicUrl(filename);
   };
 
   const sortedMedia = getSortedMedia();
@@ -103,8 +108,8 @@ function Posts() {
       boxSizing: 'border-box'
     }}>
       <Card 
-        icon="/icon.jpg"
-        icon2="/vdu-logo.jpg"
+        icon={getPublicUrl('icon.jpg')}
+        icon2={getPublicUrl('vdu-logo.jpg')}
         title="Concurso de Video Pitch"
         subtitle="El video con más interacciones se llevará una churrera a pilas"
       />
@@ -282,7 +287,7 @@ function Posts() {
                 >
                   {/* Medalla en esquina superior */}
                   <img 
-                    src='/first-place.svg'
+                    src={getPublicUrl('first-place.svg')}
                     alt="1er lugar"
                     style={{
                       position: 'absolute',
@@ -425,7 +430,7 @@ function Posts() {
                   >
                     {/* Medalla en esquina superior */}
                     <img 
-                      src={index === 0 ? '/second-place.svg' : '/third-place.svg'}
+                      src={index === 0 ? getPublicUrl('second-place.svg') : getPublicUrl('third-place.svg')}
                       alt={`${index + 2} lugar`}
                       style={{
                         position: 'absolute',
