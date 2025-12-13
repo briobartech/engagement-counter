@@ -111,7 +111,7 @@ function Posts() {
         icon={getPublicUrl('icon.jpg')}
         icon2={getPublicUrl('vdu-logo.jpg')}
         title="Concurso de Video Pitch"
-        subtitle="El video con más interacciones se llevará una churrera a pilas"
+        subtitle="🚀"
       />
 
       {/* Panel de control */}
