@@ -9,7 +9,7 @@ class InstagramAPI {
   async getUserInfo() {
     try {
       const response = await fetch(
-        `${INSTAGRAM_API_BASE_URL}/me?fields=id,username,account_type,media_count,followers_count,profile_picture_url&access_token=${this.accessToken}`
+        `${INSTAGRAM_API_BASE_URL}/me?fields=id,username,account_type,media_count,followers_count,profile_picture_url&access_token=IGAAS9hVrFVlhBZAFlUenRXMlgzdDRtajF1R3F4U3ZA6dGpjMG5fT045bzhtUWZAucjBKZA29pSS1Lb3F6SjRCZAFMyOFRYUVZA5VG5EREtJN3NkSVptbzJFd250MDBrMmIzWG03VUVEOGVVZAm5fRzlfM3VHWFlKTHhHX0dGaTAwNU44cwZDZD`
       );
       return await response.json();
     } catch (error) {
@@ -22,7 +22,7 @@ class InstagramAPI {
   async getUserMedia(limit = 25) {
     try {
       const response = await fetch(
-        `${INSTAGRAM_API_BASE_URL}/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count&limit=${limit}&access_token=${this.accessToken}`
+        `${INSTAGRAM_API_BASE_URL}/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count&limit=${limit}&access_token=IGAAS9hVrFVlhBZAFlUenRXMlgzdDRtajF1R3F4U3ZA6dGpjMG5fT045bzhtUWZAucjBKZA29pSS1Lb3F6SjRCZAFMyOFRYUVZA5VG5EREtJN3NkSVptbzJFd250MDBrMmIzWG03VUVEOGVVZAm5fRzlfM3VHWFlKTHhHX0dGaTAwNU44cwZDZD`
       );
       return await response.json();
     } catch (error) {
@@ -35,7 +35,7 @@ class InstagramAPI {
   async getMediaInsights(mediaId) {
     try {
       const response = await fetch(
-        `${INSTAGRAM_API_BASE_URL}/${mediaId}/insights?metric=engagement,impressions,reach,saved&access_token=${this.accessToken}`
+        `${INSTAGRAM_API_BASE_URL}/${mediaId}/insights?metric=engagement,impressions,reach,saved&access_token=IGAAS9hVrFVlhBZAFlUenRXMlgzdDRtajF1R3F4U3ZA6dGpjMG5fT045bzhtUWZAucjBKZA29pSS1Lb3F6SjRCZAFMyOFRYUVZA5VG5EREtJN3NkSVptbzJFd250MDBrMmIzWG03VUVEOGVVZAm5fRzlfM3VHWFlKTHhHX0dGaTAwNU44cwZDZD`
       );
       return await response.json();
     } catch (error) {
