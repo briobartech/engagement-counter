@@ -203,7 +203,7 @@ function Posts() {
         flexWrap: 'wrap',
         gap: '10px'
       }}>
-        <h2 style={{ margin: 0, fontSize: 'clamp(18px, 4vw, 24px)' }}>📸 Ranking de Posts</h2>
+        <h2 style={{ margin: 0, fontSize: 'clamp(18px, 4vw, 24px)' }}>📸 Ranking de Videos</h2>
         
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
           <label style={{ fontWeight: '500' }}>Ordenar por:</label>
@@ -227,10 +227,16 @@ function Posts() {
 
       {loading && <p>Cargando posts...</p>}
 
+      {!loading && sortedMedia.length === 0 && (
+        <p style={{ color: '#666', marginBottom: '12px' }}>
+         
+        </p>
+      )}
+
       {sortedMedia.length > 0 && (
         <div>
           <p style={{ color: '#666', marginBottom: '12px', fontSize: '13px' }}>
-            {sortedMedia.length} posts ordenados por {
+            {sortedMedia.length} videos ordenados por {
               sortBy === 'engagement' ? 'engagement total' : 
               sortBy === 'likes' ? 'likes' : 
               'comentarios'
