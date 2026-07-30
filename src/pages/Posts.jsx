@@ -3,6 +3,9 @@ import { AppContext } from "../context/AppContext.jsx";
 import Card from "../components/Card.jsx";
 
 function Posts() {
+  const RECENT_DAYS = 7;
+  const REQUIRED_HASHTAG = '#muestra2026';
+
   const { 
     instagramAPI, 
     setAccessToken,
@@ -69,6 +72,22 @@ function Posts() {
     }
   };
 
+  const getVisibleMedia = () => {
+    const oneWeekAgo = Date.now() - (RECENT_DAYS * 24 * 60 * 60 * 1000);
+
+    return getSortedMedia().filter((media) => {
+      const publishedAt = new Date(media.timestamp).getTime();
+      const caption = (media.caption || '').toLowerCase();
+
+      return (
+        media.media_type === 'VIDEO' &&
+        Number.isFinite(publishedAt) &&
+        publishedAt >= oneWeekAgo &&
+        caption.includes(REQUIRED_HASHTAG)
+      );
+    });
+  };
+
   const formatDate = (timestamp) => {
     return new Date(timestamp).toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -96,7 +115,15 @@ function Posts() {
     return getPublicUrl(filename);
   };
 
-  const sortedMedia = getSortedMedia();
+  const getMediaThumbnail = (media) => {
+    const customThumbnail = getCustomThumbnail(media.caption);
+    if (customThumbnail) return customThumbnail;
+    if (media.thumbnail_url) return media.thumbnail_url;
+    if (media.media_url) return media.media_url;
+    return getPublicUrl('CXMFVDU.png');
+  };
+
+  const visibleMedia = getVisibleMedia();
 
   return (
     <div style={{ 
@@ -227,16 +254,16 @@ function Posts() {
 
       {loading && <p>Cargando posts...</p>}
 
-      {!loading && sortedMedia.length === 0 && (
+      {!loading && visibleMedia.length === 0 && (
         <p style={{ color: '#666', marginBottom: '12px' }}>
-         
+          No hay videos publicados en los ultimos 7 dias con el hashtag #muestra2026.
         </p>
       )}
 
-      {sortedMedia.length > 0 && (
+      {visibleMedia.length > 0 && (
         <div>
           <p style={{ color: '#666', marginBottom: '12px', fontSize: '13px' }}>
-            {sortedMedia.length} videos ordenados por {
+            {visibleMedia.length} videos ordenados por {
               sortBy === 'engagement' ? 'engagement total' : 
               sortBy === 'likes' ? 'likes' : 
               'comentarios'
@@ -284,7 +311,7 @@ function Posts() {
           `}</style>
           <div className="top-posts-grid" style={{ marginBottom: '15px', gap: '12px', width: '100%', maxWidth: '100%' }}>
             {/* Primer lugar */}
-            {sortedMedia.slice(0, 1).map((media) => {
+            {visibleMedia.slice(0, 1).map((media) => {
               const engagement = (media.like_count || 0) + (media.comments_count || 0);
               
               return (
@@ -320,7 +347,7 @@ function Posts() {
                   {/* Miniatura centrada */}
                   <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                     <img 
-                      src={getCustomThumbnail(media.caption) || (media.media_type === 'VIDEO' ? media.thumbnail_url : media.media_url)} 
+                      src={getMediaThumbnail(media)}
                       alt="thumbnail" 
                       style={{ width: '100%', height: 'auto', maxHeight: '220px', objectFit: 'contain', borderRadius: '6px' }}
                     />
@@ -428,7 +455,7 @@ function Posts() {
 
             {/* Segundo y tercer lugar */}
             <div className="second-third-grid">
-              {sortedMedia.slice(1, 3).map((media, index) => {
+              {visibleMedia.slice(1, 3).map((media, index) => {
                 const engagement = (media.like_count || 0) + (media.comments_count || 0);
                 
                 return (
@@ -463,7 +490,7 @@ function Posts() {
                     {/* Miniatura centrada */}
                     <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                       <img 
-                        src={getCustomThumbnail(media.caption) || (media.media_type === 'VIDEO' ? media.thumbnail_url : media.media_url)} 
+                        src={getMediaThumbnail(media)}
                         alt="thumbnail" 
                         style={{ width: '100%', height: 'auto', maxHeight: '220px', objectFit: 'contain', borderRadius: '6px' }}
                       />
@@ -596,7 +623,7 @@ function Posts() {
             }
           `}</style>
           <div style={{ display: 'grid', gap: '12px', marginTop: '15px' }}>
-            {sortedMedia.slice(3).map((media, index) => {
+            {visibleMedia.slice(3).map((media, index) => {
               const actualIndex = index + 3;
               const engagement = (media.like_count || 0) + (media.comments_count || 0);
               
@@ -645,7 +672,7 @@ function Posts() {
 
                     {/* Miniatura */}
                     <img 
-                      src={getCustomThumbnail(media.caption) || (media.media_type === 'VIDEO' ? media.thumbnail_url : media.media_url)} 
+                      src={getMediaThumbnail(media)}
                       alt="thumbnail" 
                       className="rest-post-thumbnail"
                       style={{ width: '150px', height: '150px', objectFit: 'contain', borderRadius: '8px' }}
