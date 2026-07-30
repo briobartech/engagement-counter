@@ -116,10 +116,10 @@ function Posts() {
   };
 
   const getMediaThumbnail = (media) => {
-    const customThumbnail = getCustomThumbnail(media.caption);
-    if (customThumbnail) return customThumbnail;
     if (media.thumbnail_url) return media.thumbnail_url;
     if (media.media_url) return media.media_url;
+    const customThumbnail = getCustomThumbnail(media.caption);
+    if (customThumbnail) return customThumbnail;
     return getPublicUrl('CXMFVDU.png');
   };
 
